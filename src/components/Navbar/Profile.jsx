@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import { useNavigate } from "react-router-dom";
+import ProfileModal from "./profileModal";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,13 +52,16 @@ const Profile = () => {
       </div>
     );
   }
-
+const handleLogout = async () => {
+  await supabase.auth.signOut();
+  navigate("/login");
+};
   return (
     <div className="flex flex-col items-center gap-4 p-6">
       
       {/* Avatar */}
       <div
-        onClick={() => navigate("/edit-profile")}
+        onClick={() => setOpenModal(true)}
         className="w-16 h-16 rounded-xl bg-gray-300 flex items-center justify-center text-gray-700 text-xl font-bold cursor-pointer overflow-hidden"
       >
         {profile?.avatar_url ? (
@@ -80,22 +85,14 @@ const Profile = () => {
         </p>
       </div>
 
-      {/* Edit Button */}
-      <button
-        onClick={() => navigate("/edit-profile")}
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-      >
-        Edit Profile
-      </button>
-      <button
-  onClick={async () => {
-    await supabase.auth.signOut();
-    navigate("/login");
-  }}
-  className="px-4 py-2 bg-red-500 text-white rounded-lg"
->
-  Logout
-</button>
+   
+<ProfileModal
+  isOpen={openModal}
+  onClose={() => setOpenModal(false)}
+  profile={profile}
+  setProfile={setProfile}
+  onLogout={handleLogout}
+/>
     </div>
   );
 };
