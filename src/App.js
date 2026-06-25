@@ -1,47 +1,54 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { supabase } from "./lib/supabase";
-
-
-import "./index.css";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./hooks/useAuth";
 
 import Login from "./components/Login";
 import HomePage from "./components/HomePage";
-import Dashboard from "./components/DashBoard/Dashboard.jsx"
+import Dashboard from "./components/DashBoard/Dashboard";
+import Profile from "./components/Navbar/Profile";
+import CreateProfile from "./components/CreateProfile";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, profile, loading } = useAuth();
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-      setLoading(false);
-    });
-
-    const { data: listener } =
-      supabase.auth.onAuthStateChange((_, session) => {
-        setUser(session?.user ?? null);
-      });
-
-    return () => listener.subscription.unsubscribe();
-  }, []);
-
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div>Loading...</div>;
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={user ? <HomePage /> : <Login />}
-        />
-        <Route
-          path="/dashboard"
-          element={user ? <Dashboard /> : <Login />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+
+      <Route
+        path="/login"
+        element={!user ? <Login /> : <Navigate to="/" />}
+      />
+
+     <Route
+  path="/home"
+  element={
+    user
+      ? profile
+        ? <HomePage />
+        : <Navigate to="/create-profile" />
+      : <Navigate to="/login" />
+  }
+/>
+
+      <Route
+        path="/dashboard"
+        element={user ? <Dashboard /> : <Navigate to="/login" />}
+      />
+
+      <Route
+        path="/profile"
+        element={user ? <Profile /> : <Navigate to="/login" />}
+      />
+
+      <Route
+        path="/create-profile"
+        element={
+          user ? <CreateProfile /> : <Navigate to="/login" />
+        }
+      />
+
+    </Routes>
   );
 }
 
