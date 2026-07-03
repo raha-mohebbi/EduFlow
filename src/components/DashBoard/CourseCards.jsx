@@ -1,30 +1,25 @@
+import courses from "./Courses";
+import CourseCard from "./CourseCard";
+
 const CourseCards = () => {
   return (
-    <div className="course-cards">
-      <h2>Featured Courses</h2>
-      <div className="cards-container">
-        <div className="course-card">
-          <h3>Introduction to Programming</h3>
-          <p>
-            Learn the basics of programming with this beginner-friendly course.
-          </p>
-        </div>
-        <div className="course-card">
-          <h3>Data Science Fundamentals</h3>
-          <p>
-            Explore the world of data science and learn how to analyze and
-            visualize data.
-          </p>
-        </div>
-        <div className="course-card">
-          <h3>Web Development Bootcamp</h3>
-          <p>
-            Master the skills needed to build modern web applications from
-            scratch.
-          </p>
-        </div>
-      </div>
+    <div className="course-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {courses.map((course) => (
+        <CourseCard
+          key={course.id}
+          image={course.image}
+          title={course.title}
+          instructor={course.instructor}
+          description={course.description}
+          price={course.price}
+          rating={course.rating}
+          category={course.category}
+          students={course.students}
+          isInCart={course.isInCart}
+        />
+      ))}
     </div>
   );
 };
+
 export default CourseCards;
