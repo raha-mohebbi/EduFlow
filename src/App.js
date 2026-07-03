@@ -14,40 +14,51 @@ function App() {
 
   return (
     <Routes>
-
       <Route
         path="/login"
-        element={!user ? <Login /> : <Navigate to="/" />}
+        element={!user ? <Login /> : <Navigate to="/home" replace />}
       />
 
-     <Route
-  path="/home"
-  element={
-    user
-      ? profile
-        ? <HomePage />
-        : <Navigate to="/create-profile" />
-      : <Navigate to="/login" />
-  }
-/>
+      <Route
+        path="/home"
+        element={
+          user ? (
+            profile ? (
+              <HomePage />
+            ) : (
+              <Navigate to="/create-profile" replace />
+            )
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
 
       <Route
         path="/dashboard"
-        element={user ? <Dashboard /> : <Navigate to="/login" />}
+        element={
+          user ? <Dashboard /> : <Navigate to="/login" replace />
+        }
       />
 
       <Route
         path="/profile"
-        element={user ? <Profile /> : <Navigate to="/login" />}
+        element={
+          user ? <Profile /> : <Navigate to="/login" replace />
+        }
       />
 
       <Route
         path="/create-profile"
         element={
-          user ? <CreateProfile /> : <Navigate to="/login" />
+          user ? <CreateProfile /> : <Navigate to="/login" replace />
         }
       />
 
+      <Route
+        path="/"
+        element={<Navigate to="/home" replace />}
+      />
     </Routes>
   );
 }
