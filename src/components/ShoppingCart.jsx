@@ -7,7 +7,7 @@ const ShoppingCart = () => {
   const addToCart = (course) => {
     setCart([...cart, course]);
   };
-
+<p>hell</p>
   return (
     <CourseCard
       onAddToCart={addToCart}

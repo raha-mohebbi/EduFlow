@@ -1,12 +1,11 @@
-import Courses from "./Courses";
-import Sidebar from "../SideBar";
+import CourseCards from "./CourseCards";
 
-const Dashboard = () => {
+const Dashboard = ({ addToCart }) => {
   return (
     <div className="flex">
-      {/* Sidebar */}
-      <Sidebar />
+      <CourseCards addToCart={addToCart} />
     </div>
   );
 };
+
 export default Dashboard;

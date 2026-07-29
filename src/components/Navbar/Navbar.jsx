@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import Searchbox from "./Searchbox";
 import Profile from "./Profile";
+import Cart from "../Cart";
+
+import { TiShoppingCart } from "react-icons/ti";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -28,6 +31,10 @@ const Navbar = () => {
           </button>
 
           <Searchbox />
+<TiShoppingCart
+  onClick={() => navigate("/Cart")}
+  className="cursor-pointer text-xl"
+/>
 
           <Profile />
         </div>

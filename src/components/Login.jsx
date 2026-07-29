@@ -151,7 +151,7 @@ const Login = () => {
             disabled={loading}
             className="w-full mt-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-blue-500/20"
           >
-            {loading ? "Sending..." : "Send Code"}
+            {loading ? "Sending..." : "Send Email"}
           </button>
         </div>
       )}
