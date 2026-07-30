@@ -25,7 +25,11 @@ function App() {
       return [...prev, course];
     });
   };
-
+const removeFromCart = (id) => {
+  setCart((prev) =>
+    prev.filter((item) => item.id !== id)
+  );
+};
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -67,7 +71,8 @@ function App() {
  element={
    user ? (
      profile ? (
-       <HomePage addToCart={addToCart}/>
+       <HomePage addToCart={addToCart}
+       cart={cart}/>
      ) : (
        <Navigate to="/create-profile" />
      )
@@ -118,16 +123,19 @@ function App() {
 
 
       {/* Cart */}
-      <Route
-        path="/cart"
-        element={
-          user ? (
-            <Cart cart={cart} />
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
+    <Route
+  path="/cart"
+  element={
+    user ? (
+      <Cart 
+        cart={cart}
+        removeFromCart={removeFromCart}
       />
+    ) : (
+      <Navigate to="/login" replace />
+    )
+  }
+/>
 
 
       {/* Unknown routes */}

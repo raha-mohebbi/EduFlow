@@ -1,4 +1,4 @@
-const Cart = ({ cart = [] }) => {
+const Cart = ({ cart = [], removeFromCart }) => {
   return (
     <div className="p-6">
 
@@ -45,6 +45,32 @@ const Cart = ({ cart = [] }) => {
               <p className="text-green-600 font-bold mt-2">
                 ${item.price}
               </p>
+
+
+              <p className="text-gray-600 mt-2">
+                {item.description}
+              </p>
+
+
+              <p className="text-gray-600">
+                Instructor: {item.instructor}
+              </p>
+
+
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="
+                  mt-3
+                  bg-red-500
+                  text-white
+                  px-4
+                  py-2
+                  rounded
+                  hover:bg-red-600
+                "
+              >
+                Remove from Cart
+              </button>
 
 
             </div>
