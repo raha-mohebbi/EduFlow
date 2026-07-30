@@ -15,33 +15,70 @@ function App() {
   const [cart, setCart] = useState([]);
 
   const addToCart = (course) => {
-    setCart((prev) => [...prev, course]);
+    setCart((prev) => {
+      const exists = prev.find((item) => item.id === course.id);
+
+      if (exists) {
+        return prev;
+      }
+
+      return [...prev, course];
+    });
   };
 
-  if (loading) return <h1>Loading...</h1>;
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
 
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={!user ? <Login /> : <Navigate to="/home" replace />}
-      />
 
+      {/* Root */}
       <Route
-        path="/home"
+        path="/"
         element={
           user ? (
-            profile ? (
-              <HomePage />
-            ) : (
-              <Navigate to="/create-profile" replace />
-            )
+            <Navigate to="/home" replace />
           ) : (
             <Navigate to="/login" replace />
           )
         }
       />
 
+
+      {/* Login */}
+      <Route
+        path="/login"
+        element={
+          user ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <Login />
+          )
+        }
+      />
+
+
+      {/* Home */}
+   <Route
+ path="/home"
+ element={
+   user ? (
+     profile ? (
+       <HomePage addToCart={addToCart}/>
+     ) : (
+       <Navigate to="/create-profile" />
+     )
+   ) : (
+     <Navigate to="/login" />
+   )
+ }
+/>
+
+
+      {/* Dashboard */}
       <Route
         path="/dashboard"
         element={
@@ -53,22 +90,58 @@ function App() {
         }
       />
 
+
+      {/* Profile */}
       <Route
         path="/profile"
-        element={user ? <Profile /> : <Navigate to="/login" replace />}
+        element={
+          user ? (
+            <Profile />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
       />
 
+
+      {/* Create Profile */}
       <Route
         path="/create-profile"
-        element={user ? <CreateProfile /> : <Navigate to="/login" replace />}
+        element={
+          user ? (
+            <CreateProfile />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
       />
 
+
+      {/* Cart */}
       <Route
         path="/cart"
-        element={user ? <Cart cart={cart} /> : <Navigate to="/login" replace />}
+        element={
+          user ? (
+            <Cart cart={cart} />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
       />
 
-      <Route path="/" element={<Navigate to="/home" replace />} />
+
+      {/* Unknown routes */}
+      <Route
+        path="*"
+        element={
+          user ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
     </Routes>
   );
 }
