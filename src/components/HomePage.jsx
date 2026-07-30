@@ -1,14 +1,15 @@
 import TopInstructors from "./TopInstructors";
-import Login from "./Login";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "./Navbar/Navbar";
 import CourseCards from "./DashBoard/CourseCards";
-const HomePage = () => {
+
+const HomePage = ({addToCart}) => {
   return (
-    <div className="home-page">
-    <Navbar />
+    <div>
+      <Navbar />
       <TopInstructors />
-      <CourseCards/>
+      <CourseCards addToCart={addToCart}/>
     </div>
   );
 };
+
 export default HomePage;
