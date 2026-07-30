@@ -9,6 +9,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     const init = async () => {
+       console.log("init start");
       const { data: { user } } = await supabase.auth.getUser();
 
       setUser(user);
