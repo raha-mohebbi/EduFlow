@@ -1,4 +1,5 @@
 const Cart = ({ cart = [], removeFromCart }) => {
+  const totalPrice = cart.reduce((total, item) => total + item.price, 0);
   return (
     <div className="p-6">
 
@@ -76,6 +77,11 @@ const Cart = ({ cart = [], removeFromCart }) => {
             </div>
 
           ))}
+          <div className="col-span-1 md:col-span-3 mt-5">
+            <h2 className="text-2xl font-bold">
+              Total Price: ${totalPrice.toFixed(2)}
+            </h2>
+          </div>
 
         </div>
 
