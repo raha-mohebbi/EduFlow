@@ -1,7 +1,7 @@
 import courses from "./Courses";
 import { toast } from "react-toastify";
 
-const CourseCards = ({ addToCart, cart }) => {
+const CourseCards = ({ addToCart, cart, search = "" }) => {
 
   const handleAddToCart = (course) => {
 
@@ -14,16 +14,30 @@ const CourseCards = ({ addToCart, cart }) => {
   };
 
 
-  return (
-    <div className="
-      grid 
-      grid-cols-1 
-      md:grid-cols-3 
-      gap-6 
-      p-6
-    ">
+  const filteredCourses = courses.filter((course) => {
 
-      {courses.map((course) => {
+    const text = search.toLowerCase();
+
+    return (
+      course.title.toLowerCase().includes(text) ||
+      course.instructor.toLowerCase().includes(text)
+    );
+
+  });
+
+
+  return (
+    <div
+      className="
+        grid 
+        grid-cols-1 
+        md:grid-cols-3 
+        gap-6 
+        p-6
+      "
+    >
+
+      {filteredCourses.map((course) => {
 
         const isInCart = cart.some(
           (item) => item.id === course.id
@@ -34,13 +48,23 @@ const CourseCards = ({ addToCart, cart }) => {
 
           <div
             key={course.id}
-            className="border rounded-xl p-4 shadow"
+            className="
+              border 
+              rounded-xl 
+              p-4 
+              shadow
+            "
           >
 
             <img
               src={course.image}
               alt={course.title}
-              className="w-full h-40 object-cover rounded"
+              className="
+                w-full 
+                h-40 
+                object-cover 
+                rounded
+              "
             />
 
 
@@ -49,7 +73,7 @@ const CourseCards = ({ addToCart, cart }) => {
             </h2>
 
 
-            <p>
+            <p className="font-bold text-green-600">
               ${course.price}
             </p>
 
@@ -65,28 +89,23 @@ const CourseCards = ({ addToCart, cart }) => {
 
 
 
-            {
-              isInCart && (
-
-                <p className="
+            {isInCart && (
+              <p
+                className="
                   text-green-600 
                   mt-3 
                   font-semibold
-                ">
-                   This course is already in your cart 
-                </p>
-
-              )
-            }
+                "
+              >
+                This course is already in your cart
+              </p>
+            )}
 
 
 
             <button
-
               disabled={isInCart}
-
               onClick={() => handleAddToCart(course)}
-
               className={`
                 px-4 
                 py-2 
@@ -96,19 +115,16 @@ const CourseCards = ({ addToCart, cart }) => {
 
                 ${
                   isInCart
-                  ? 
-                  "bg-gray-400 cursor-not-allowed"
-                  :
-                  "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
                 }
-
               `}
             >
 
               {
                 isInCart
-                ? "Added "
-                : "Add To Cart"
+                  ? "Added ✓"
+                  : "Add To Cart"
               }
 
             </button>
