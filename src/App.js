@@ -8,6 +8,7 @@ import Dashboard from "./components/DashBoard/Dashboard";
 import Profile from "./components/Navbar/Profile";
 import CreateProfile from "./components/CreateProfile";
 import Cart from "./components/Cart";
+import CourseDetails from "./components/DashBoard/CourseDetails";
 
 function App() {
   const { user, profile, loading } = useAuth();
@@ -150,6 +151,16 @@ const removeFromCart = (id) => {
         }
       />
 
+<Route
+  path="/course/:id"
+  element={
+    user ? (
+      <CourseDetails />
+    ) : (
+      <Navigate to="/login" replace />
+    )
+  }
+/>
     </Routes>
   );
 }
