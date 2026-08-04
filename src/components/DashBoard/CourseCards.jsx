@@ -1,8 +1,9 @@
 import courses from "./Courses";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CourseCards = ({ addToCart, cart, search = "" }) => {
-
+const navigate = useNavigate();
   const handleAddToCart = (course) => {
 
     addToCart(course);
@@ -48,6 +49,7 @@ const CourseCards = ({ addToCart, cart, search = "" }) => {
 
           <div
             key={course.id}
+             onClick={() => navigate(`/course/${course.id}`)}
             className="
               border 
               rounded-xl 
@@ -89,7 +91,7 @@ const CourseCards = ({ addToCart, cart, search = "" }) => {
 
 
 
-            {isInCart && (
+            {/* {isInCart && (
               <p
                 className="
                   text-green-600 
@@ -99,37 +101,46 @@ const CourseCards = ({ addToCart, cart, search = "" }) => {
               >
                 This course is already in your cart
               </p>
-            )}
+            )} */}
 
 
 
             <button
-              disabled={isInCart}
-              onClick={() => handleAddToCart(course)}
-              className={`
-                px-4 
-                py-2 
-                rounded 
-                mt-3 
-                text-white
+  disabled={isInCart}
+  onClick={(e) => {
+    e.stopPropagation();
+    handleAddToCart(course);
+  }}
+  className={`
+    px-4 
+    py-2 
+    rounded 
+    mt-3 
+    text-white
 
-                ${
-                  isInCart
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
-                }
-              `}
-            >
-
-              {
-                isInCart
-                  ? "Added ✓"
-                  : "Add To Cart"
-              }
-
-            </button>
-
-
+    ${
+      isInCart
+        ? "bg-gray-400 cursor-not-allowed"
+        : "bg-blue-600 hover:bg-blue-700"
+    }
+  `}
+>
+  {isInCart ? "Added ✓" : "Add To Cart"}
+</button>
+<button
+  onClick={() => navigate(`/course/${course.id}`)}
+  className="
+    mt-3
+    ml-2
+    px-4
+    py-2
+    rounded
+    bg-gray-800
+    text-white
+  "
+>
+  Read More
+</button>
           </div>
 
         );
