@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import Searchbox from "./Searchbox";
 import Profile from "./Profile";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 import { TiShoppingCart } from "react-icons/ti";
 
 const Navbar = ({ search, setSearch }) => {
+  
   const navigate = useNavigate();
-
+const { cart } = useContext(CartContext);
   return (
     <nav className="flex items-center justify-between p-4 border-b">
 
@@ -41,11 +44,32 @@ const Navbar = ({ search, setSearch }) => {
         />
 
 
-        <TiShoppingCart
-          onClick={() => navigate("/cart")}
-          className="cursor-pointer text-xl"
-        />
+      <div className="relative">
 
+  <TiShoppingCart
+    onClick={() => navigate("/cart")}
+    className="cursor-pointer text-2xl"
+  />
+
+
+  {cart.length > 0 && (
+    <span
+      className="
+        absolute
+        -top-2
+        -right-2
+        bg-red-500
+        text-white
+        text-xs
+        rounded-full
+        px-2
+      "
+    >
+      {cart.length}
+    </span>
+  )}
+
+</div>
 
         <Profile />
 
