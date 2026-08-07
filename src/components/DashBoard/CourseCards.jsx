@@ -1,9 +1,22 @@
 import courses from "./Courses";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
-const CourseCards = ({ addToCart, cart, search = "" }) => {
-const navigate = useNavigate();
+
+const CourseCards = ({ search = "" }) => {
+
+  const navigate = useNavigate();
+
+
+  const {
+    cart,
+    addToCart
+  } = useContext(CartContext);
+
+
+
   const handleAddToCart = (course) => {
 
     addToCart(course);
@@ -15,9 +28,11 @@ const navigate = useNavigate();
   };
 
 
+
   const filteredCourses = courses.filter((course) => {
 
     const text = search.toLowerCase();
+
 
     return (
       course.title.toLowerCase().includes(text) ||
@@ -27,47 +42,53 @@ const navigate = useNavigate();
   });
 
 
+
   return (
+
     <div
       className="
-        grid 
-        grid-cols-1 
-        md:grid-cols-3 
-        gap-6 
+        grid
+        grid-cols-1
+        md:grid-cols-3
+        gap-6
         p-6
       "
     >
 
+
       {filteredCourses.map((course) => {
+
 
         const isInCart = cart.some(
           (item) => item.id === course.id
         );
 
 
+
         return (
 
           <div
             key={course.id}
-             onClick={() => navigate(`/course/${course.id}`)}
             className="
-              border 
-              rounded-xl 
-              p-4 
+              border
+              rounded-xl
+              p-4
               shadow
             "
           >
+
 
             <img
               src={course.image}
               alt={course.title}
               className="
-                w-full 
-                h-40 
-                object-cover 
+                w-full
+                h-40
+                object-cover
                 rounded
               "
             />
+
 
 
             <h2 className="font-bold text-xl mt-3">
@@ -75,14 +96,17 @@ const navigate = useNavigate();
             </h2>
 
 
+
             <p className="font-bold text-green-600">
               ${course.price}
             </p>
 
 
+
             <p className="text-gray-600 mt-2">
               {course.description}
             </p>
+
 
 
             <p className="text-gray-600">
@@ -91,56 +115,88 @@ const navigate = useNavigate();
 
 
 
-            {/* {isInCart && (
-              <p
-                className="
-                  text-green-600 
-                  mt-3 
-                  font-semibold
-                "
+            {
+              isInCart && (
+
+                <p
+                  className="
+                    text-green-600
+                    mt-3
+                    font-semibold
+                  "
+                >
+                  This course is already in your cart
+                </p>
+
+              )
+            }
+
+
+
+            <div className="flex gap-2 mt-3">
+
+
+              <button
+
+                disabled={isInCart}
+
+                onClick={() => handleAddToCart(course)}
+
+                className={`
+                  px-4
+                  py-2
+                  rounded
+                  text-white
+
+                  ${
+                    isInCart
+                    ?
+                    "bg-gray-400 cursor-not-allowed"
+                    :
+                    "bg-blue-600 hover:bg-blue-700"
+                  }
+                `}
+
               >
-                This course is already in your cart
-              </p>
-            )} */}
+
+                {
+                  isInCart
+                  ?
+                  "Added ✓"
+                  :
+                  "Add To Cart"
+                }
+
+              </button>
 
 
 
-            <button
-  disabled={isInCart}
-  onClick={(e) => {
-    e.stopPropagation();
-    handleAddToCart(course);
-  }}
-  className={`
-    px-4 
-    py-2 
-    rounded 
-    mt-3 
-    text-white
+              <button
 
-    ${
-      isInCart
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-blue-600 hover:bg-blue-700"
-    }
-  `}
->
-  {isInCart ? "Added ✓" : "Add To Cart"}
-</button>
-<button
-  onClick={() => navigate(`/course/${course.id}`)}
-  className="
-    mt-3
-    ml-2
-    px-4
-    py-2
-    rounded
-    bg-gray-800
-    text-white
-  "
->
-  Read More
-</button>
+                onClick={() =>
+                  navigate(`/course/${course.id}`)
+                }
+
+                className="
+                  px-4
+                  py-2
+                  rounded
+                  bg-gray-800
+                  text-white
+                  hover:bg-gray-900
+                "
+
+              >
+
+                Read More
+
+              </button>
+
+
+            </div>
+
+
+
           </div>
 
         );
@@ -149,7 +205,9 @@ const navigate = useNavigate();
 
 
     </div>
+
   );
+
 };
 
 
